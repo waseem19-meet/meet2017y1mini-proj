@@ -81,6 +81,19 @@ turtle.onkeypress(left,LEFT_ARROW)
 
 turtle.listen()
 
+def make_food():
+    min_x=-int(SIZE_X/2/SQUARE_SIZE)+1
+    max_x=int(SIZE_X/2/SQUARE_SIZE)-1
+    min_y=-int(SIZE_Y/2/SQUARE_SIZE)-1
+    max_y=int(SIZE_Y/2/SQUARE_SIZE)+1
+    food_x=random.randint(min_x,max_x)*SQUARE_SIZE
+    food_y=random.randint(min_y,max_y)*SQUARE_SIZE
+    food_turtle_pos=(food_x,food_y)
+    food.goto(food_x,food_y)
+    food_pos.append(food_turtle_pos)
+    food_stamps.append(food.stamp())
+    
+
 def move_snake():
     my_pos = snake.pos()
     x_pos = my_pos[0]
@@ -88,8 +101,6 @@ def move_snake():
     new_pos = snake.pos()
     new_x_pos = new_pos[0]
     new_y_pos = new_pos[1]
-    turtle.ontimer(move_snake,TIME_STEP)
-
     
     if direction==RIGHT:
         snake.goto(x_pos + SQUARE_SIZE, y_pos)
@@ -102,7 +113,7 @@ def move_snake():
         print("you moved up!")
     elif direction==DOWN:
         snake.goto(x_pos,y_pos-SQUARE_SIZE)
-        print("You moved down!")
+        #print("You moved down!")
 #4. Write the conditions for UP and DOWN on your own
 ##### YOUR CODE HERE
 #Stamp new element and append new stamp in list
@@ -118,21 +129,18 @@ def move_snake():
     #If snake is on top of food item
     if snake.pos() in food_pos:
         food_ind=food_pos.index(snake.pos()) #What does this do?
-        food.clearstamp(food_stamps[food_ind]) #Remove eaten food
-
-    #stamp
-    food_pos.pop(food_ind) #Remove eaten food position
-    food_stamps.pop(food_ind) #Remove eaten food stamp
-    print("You have eaten the food!")
+        food.clearstamp(food_stamps[food_ind]) #Remove eaten food stamp
+        food_pos.pop(food_ind) #Remove eaten food position
+        food_stamps.pop(food_ind) #Remove eaten food stamp
+        print("You have eaten the food!")
+        make_food()
 #HINT: This if statement may be useful for Part 8
-...
 #Don't change the rest of the code in move_snake() function:
 #If you have included the timer so the snake moves
 #automatically, the function should finish as before with a
 #call to ontimer()
-old_stamp = stamp_list.pop(0)
-snake.clearstamp(old_stamp)
-pos_list.pop(0)
+    old_stamp = stamp_list.pop(0)
+    snake.clearstamp(old_stamp)
     if new_x_pos>=RIGHT_EDGE:
         print("You hit the right edge! Game Over!")
         quit()
@@ -145,7 +153,9 @@ pos_list.pop(0)
     elif new_y_pos<=DOWN_EDGE:
         print("you hit the down edge!Game Over!")
         quit()
-        turtle.ontimer(move_snake,TIME_STEP)
+
+    turtle.ontimer(move_snake,TIME_STEP)
+
 move_snake()
 
 turtle.register_shape("trash.gif") #Add trash picture
@@ -158,8 +168,7 @@ food = turtle.clone()
 food.shape("trash.gif")
 food.hideturtle()
 #Locations of food
-food_pos = [(100,100), (-100,100), (-100,-100), (100,-100)]
-food_stamps = []
+food_pos = [(100,100)]
 # Write code that:
 #1. moves the food turtle to each food position
 #2. stamps the food turtle at that location
@@ -169,5 +178,8 @@ food_stamps = []
 for this_food_pos in food_pos :
 ####WRITE YOUR CODE HERE!!
     food.goto(this_food_pos)
-    food.stamp()
-    food_stamps.append(this_food_pos)
+    food_stamps.append(food.stamp())
+    
+if pos_list() in stamp_list():
+    print("Game Over!")
+    
