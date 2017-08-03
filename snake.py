@@ -10,6 +10,7 @@ turtle.setup(SIZE_X, SIZE_Y) #Curious? It's the turtle window
 turtle.penup()
 SQUARE_SIZE = 20
 START_LENGTH = 5
+
 #Initialize lists
 pos_list = []
 stamp_list = []
@@ -101,7 +102,7 @@ def move_snake():
     new_pos = snake.pos()
     new_x_pos = new_pos[0]
     new_y_pos = new_pos[1]
-    
+   
     if direction==RIGHT:
         snake.goto(x_pos + SQUARE_SIZE, y_pos)
         print("You moved right!")
@@ -133,14 +134,19 @@ def move_snake():
         food_pos.pop(food_ind) #Remove eaten food position
         food_stamps.pop(food_ind) #Remove eaten food stamp
         print("You have eaten the food!")
+        
         make_food()
 #HINT: This if statement may be useful for Part 8
 #Don't change the rest of the code in move_snake() function:
 #If you have included the timer so the snake moves
 #automatically, the function should finish as before with a
 #call to ontimer()
-    old_stamp = stamp_list.pop(0)
-    snake.clearstamp(old_stamp)
+    else:
+        old_stamp = stamp_list.pop(0)
+        snake.clearstamp(old_stamp)
+        pos_list.pop(0)
+    
+    
     if new_x_pos>=RIGHT_EDGE:
         print("You hit the right edge! Game Over!")
         quit()
@@ -152,6 +158,9 @@ def move_snake():
         quit()
     elif new_y_pos<=DOWN_EDGE:
         print("you hit the down edge!Game Over!")
+        quit()
+    if pos_list[-1] in pos_list[:-1]:
+        print("Game Over!")
         quit()
 
     turtle.ontimer(move_snake,TIME_STEP)
@@ -179,7 +188,10 @@ for this_food_pos in food_pos :
 ####WRITE YOUR CODE HERE!!
     food.goto(this_food_pos)
     food_stamps.append(food.stamp())
+
+
+
+
     
-if pos_list() in stamp_list():
-    print("Game Over!")
+
     
