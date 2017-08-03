@@ -3,8 +3,9 @@ import random #We'll need this later in the lab
 turtle.tracer(1,0) #This helps the turtle move more smoothly
 SIZE_X=800
 SIZE_Y=500
-turtle.setup(SIZE_X, SIZE_Y) #Curious? It's the turtle window
 
+turtle.setup(SIZE_X, SIZE_Y) #Curious? It's the turtle window
+n= 0
 #size.
 
 turtle.penup()
@@ -93,6 +94,7 @@ def make_food():
     food.goto(food_x,food_y)
     food_pos.append(food_turtle_pos)
     food_stamps.append(food.stamp())
+
     
 
 def move_snake():
@@ -134,8 +136,15 @@ def move_snake():
         food_pos.pop(food_ind) #Remove eaten food position
         food_stamps.pop(food_ind) #Remove eaten food stamp
         print("You have eaten the food!")
-        
+        global n
+        n=n+1
+        turtle.write("your score is: " + str(n), font=(30))
+
+        turtle.goto(-350,-240)
+
         make_food()
+    
+                     
 #HINT: This if statement may be useful for Part 8
 #Don't change the rest of the code in move_snake() function:
 #If you have included the timer so the snake moves
